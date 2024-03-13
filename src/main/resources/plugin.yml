@@ -1,0 +1,14 @@
+name: AutoMine
+version: '${project.version}'
+main: ru.anime.automine.Main
+api-version: '1.16'
+commands:
+  automine:
+    aliases:
+      - am
+permissions:
+  automine.admin:
+    default: op
+depend:
+  - PlaceholderAPI
+  - DecentHolograms

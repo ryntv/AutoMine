@@ -1,0 +1,12 @@
+# Version: 0.1
+# Discord: https://discord.gg/XCWzCRtxgq
+#
+# Разрешение: automine.admin
+# Placeholder
+#
+#    %am_current_<name>% - показывает название текущей шахты
+#    %am_next_<name>% - показывает следующую шахту
+#    %am_time_<name>% - показывает время до следующей шахты
+#
+# Вся настойка авто-шахт происходит в папке AutoMines.yml
+# Для создания авто-шахты напишите /am create <название>
