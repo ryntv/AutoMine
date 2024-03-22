@@ -113,6 +113,17 @@ public class AutoMine {
         }
     }
 
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public void setPresently(TypeMine presently) {
+        this.presently = presently;
+    }
+
+    public void setNext(TypeMine next) {
+        this.next = next;
+    }
 
     public String getId() {
         return id;

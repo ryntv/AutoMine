@@ -20,7 +20,10 @@ public class AutoMinePlaceholder extends PlaceholderExpansion {
     public @NotNull String getAuthor() {
         return null;
     }
-
+    @Override
+    public boolean persist() {
+        return true;
+    }
     @Override
     public @NotNull String getVersion() {
         return plugin.getDescription().getVersion();

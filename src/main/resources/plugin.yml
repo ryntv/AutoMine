@@ -9,6 +9,13 @@ commands:
 permissions:
   automine.admin:
     default: op
+  automine.create:
+    default: op
+  automine.update:
+    default: op
+  automine.set:
+    default: op
+
 depend:
   - PlaceholderAPI
   - DecentHolograms
