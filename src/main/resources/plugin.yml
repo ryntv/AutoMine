@@ -19,3 +19,5 @@ permissions:
 depend:
   - PlaceholderAPI
   - DecentHolograms
+softdepend:
+  - MultiWorld
