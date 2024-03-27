@@ -46,18 +46,14 @@ public class LoadAutoMine {
                             int chance = config.getInt(typeMineKey + ".chance");
                             Map<Integer, String> blockList = loadBlockList(config, typeMineKey + ".blockList");
                             Map<Integer, String> treeMap = new TreeMap<>(blockList);
-                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, treeMap);
+                            List<String> updateMessage = config.getStringList(typeMineKey + ".update_message");
+                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, treeMap, updateMessage);
                             typeMineList.add(typeMine);
                         }
                     }
                     String key = autoMineId.replaceFirst("AutoMines\\.", "");
                     AutoMine autoMine = new AutoMine(key, firstPos, secondPos, hologramPos, lines, world, Sort.sort(typeMineList), timeUpdate);
-                    System.out.println("Авто-шахта: " + key + " загружена!");
                     autoMines.put(key, autoMine);
-                    List<TypeMine> type = autoMine.getTypeMine();
-                    for (TypeMine mine : type) {
-                        System.out.println(mine.getChance());
-                    }
                 }
             }
         } catch (Exception e) {

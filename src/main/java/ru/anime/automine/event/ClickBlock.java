@@ -69,9 +69,14 @@ public class ClickBlock implements Listener {
             Map<Integer, String> blockListSuper = new TreeMap<>();
             blockListSuper.put(50, "GOLD_ORE");
             blockListSuper.put(100, "STONE");
+            List<String> messageDefault = new ArrayList<>();
+            messageDefault.add(" ");
+            messageDefault.add("Шахта обновилась");
+            messageDefault.add(" ");
+            List<String> messageSuper = new ArrayList<>();
 
-            TypeMine typeMine = new TypeMine("default", "Обычная", 100, blockListDefault);
-            TypeMine typeMine2 = new TypeMine("super", "Редкая", 50, blockListSuper);
+            TypeMine typeMine = new TypeMine("default", "Обычная", 100, blockListDefault, messageDefault);
+            TypeMine typeMine2 = new TypeMine("super", "Редкая", 50, blockListSuper, messageSuper);
 
             List<TypeMine> typeList = List.of(typeMine, typeMine2);
             AutoMine autoMine = new AutoMine(nameAutoMine.get(event.getPlayer().getUniqueId()), firstLocation.toVector(), secondLocation.toVector(),

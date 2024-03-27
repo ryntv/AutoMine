@@ -7,8 +7,10 @@ public class FormatTime {
         int sec = Sec % 60;
         return String.format("%02d:%02d:%02d", hour, min, sec);
     }
-    public static String stringFormat(int hour, int min, int sec){
-
+    public static String stringFormat(int Sec){
+        int hour = Sec / 3600;//3600
+        int min = Sec % 3600 / 60;
+        int sec = Sec % 60;
         StringBuilder formattedTime = new StringBuilder();
 
         if (hour > 0) {
@@ -21,6 +23,9 @@ public class FormatTime {
 
         if (hour == 0 && min == 0 && sec > 0) {
             formattedTime.append(formatUnit(sec, "секунда", "секунды", "секунд"));
+        }
+        if (hour == 0 && min == 0 && sec == 0){
+            formattedTime.append(formatUnit(sec, "секунд", "секунд", "секунд"));
         }
 
         return formattedTime.toString().trim();

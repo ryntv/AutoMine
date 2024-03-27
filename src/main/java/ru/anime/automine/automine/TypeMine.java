@@ -1,5 +1,6 @@
 package ru.anime.automine.automine;
 
+import java.util.List;
 import java.util.Map;
 
 public class TypeMine {
@@ -7,12 +8,14 @@ public class TypeMine {
     private final String name;
     private final Integer chance;
     private final Map<Integer, String> blockList;
+    private final List<String> update_message;
 
-    public TypeMine(String id, String name, Integer chance, Map<Integer, String> blockList) {
+    public TypeMine(String id, String name, Integer chance, Map<Integer, String> blockList, List<String> updateMessage) {
         this.id = id;
         this.name = name;
         this.chance = chance;
         this.blockList = blockList;
+        this.update_message = updateMessage;
     }
 
     public String getId() {
@@ -29,5 +32,9 @@ public class TypeMine {
 
     public Map<Integer, String> getBlockList() {
         return blockList;
+    }
+
+    public List<String> getUpdate_message() {
+        return update_message;
     }
 }

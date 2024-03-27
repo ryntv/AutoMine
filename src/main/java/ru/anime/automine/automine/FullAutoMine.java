@@ -1,12 +1,17 @@
 package ru.anime.automine.automine;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import ru.anime.automine.Main;
 
 import java.util.Map;
 import java.util.Random;
+
+import static ru.anime.automine.util.Hex.hex;
 
 public class FullAutoMine {
     public static void fillBlocks(Vector min, Vector max, World world, TypeMine typeMine){
@@ -19,12 +24,21 @@ public class FullAutoMine {
             int z2 = Math.max(min.getBlockZ(), max.getBlockZ());
 
             Random random = new Random();
-
+            AutoMine.teleportPlayer(min, max, world);
             for (int x = x1; x <= x2; x++) {
                 for (int y = y1; y <= y2; y++) {
                     for (int z = z1; z <= z2; z++) {
                         Location currentLocation = new Location(world, x, y, z);
                         currentLocation.getBlock().setType(getRandomBlockType(random, typeMine.getBlockList()));
+                    }
+                }
+            }
+            if (typeMine.getUpdate_message().isEmpty()){
+
+            } else {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    for (String element : typeMine.getUpdate_message()) {
+                        player.sendMessage(hex(element));
                     }
                 }
             }

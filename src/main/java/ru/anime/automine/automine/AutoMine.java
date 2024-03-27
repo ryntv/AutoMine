@@ -55,7 +55,6 @@ public class AutoMine {
             FullAutoMine.fillBlocks(firstPos, secondPos, world, presently);
         } else {
             presently = next;
-            teleportPlayer();
             FullAutoMine.fillBlocks(firstPos, secondPos, world, presently);
             next = genRandomType(typeMine);
         }
@@ -94,7 +93,7 @@ public class AutoMine {
                 y >= minY && y <= maxY &&
                 z >= minZ && z <= maxZ;
     }
-    public void teleportPlayer() {
+    public static void teleportPlayer(Vector firstPos, Vector secondPos, World world) {
         double maxY;
         if (secondPos.getY() > firstPos.getY()){
             maxY = secondPos.getY();

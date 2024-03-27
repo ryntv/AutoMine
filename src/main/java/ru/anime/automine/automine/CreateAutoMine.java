@@ -8,6 +8,8 @@ import ru.anime.automine.Main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CreateAutoMine {
@@ -44,6 +46,7 @@ public class CreateAutoMine {
                     config.set(typeMineId + ".name", typeMine.getName());
                     config.set(typeMineId + ".chance", typeMine.getChance());
                     config.set(typeMineId + ".blockList", saveBlockList(typeMine.getBlockList()));
+                    config.set(typeMineId + ".update_message", new ArrayList<>(typeMine.getUpdate_message()));
                 }
 
                 // Сохраняем изменения в файл
