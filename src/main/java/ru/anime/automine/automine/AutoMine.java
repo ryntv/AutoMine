@@ -14,6 +14,7 @@ public class AutoMine {
     private final String id;
     private final Vector firstPos;
     private final Vector secondPos;
+    private final String spawnHologram;
     private final Location hologramPos;
     private final List<String> lines;
     private final World world;
@@ -23,11 +24,12 @@ public class AutoMine {
     private TypeMine presently;
     private TypeMine next;
 
-    public AutoMine(String id, Vector firstPos, Vector secondPos, Location hologramPos, List<String> lines,
+    public AutoMine(String id, Vector firstPos, Vector secondPos, String spawnHologram, Location hologramPos, List<String> lines,
                     World world, List<TypeMine> typeMine, Integer timeUpdate) {
         this.id = id;
         this.firstPos = firstPos;
         this.secondPos = secondPos;
+        this.spawnHologram = spawnHologram;
         this.hologramPos = hologramPos;
         this.lines = lines;
         this.world = world;
@@ -40,9 +42,11 @@ public class AutoMine {
             presently = null;
             update();
         }
-        UtilHologram.createOrUpdateHologram(
-                lines, hologramPos, id
-        );
+        if (spawnHologram.equals("true")) {
+            UtilHologram.createOrUpdateHologram(
+                    lines, hologramPos, id
+            );
+        }
         time--;
     }
     public void update(){
@@ -136,6 +140,9 @@ public class AutoMine {
         return secondPos;
     }
 
+    public String getSpawnHologram() {
+        return spawnHologram;
+    }
     public Location getHologramPos() {
         return hologramPos;
     }

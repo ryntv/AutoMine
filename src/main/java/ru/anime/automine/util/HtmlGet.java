@@ -31,7 +31,7 @@ public class HtmlGet {
             reader.close();
 
             // Вывод ответа
-            if (String.valueOf(response).equals("0.1.3")){
+            if (String.valueOf(response).equals("0.1.5")){
                 connection.disconnect();
             } else {
                 return "AutoMine: Вышла новая версия: " + response;

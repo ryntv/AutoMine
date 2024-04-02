@@ -7,10 +7,10 @@ public class TypeMine {
     private final String id;
     private final String name;
     private final Integer chance;
-    private final Map<Integer, String> blockList;
+    private final Map<Float, String> blockList;
     private final List<String> update_message;
 
-    public TypeMine(String id, String name, Integer chance, Map<Integer, String> blockList, List<String> updateMessage) {
+    public TypeMine(String id, String name, Integer chance, Map<Float, String> blockList, List<String> updateMessage) {
         this.id = id;
         this.name = name;
         this.chance = chance;
@@ -30,7 +30,7 @@ public class TypeMine {
         return chance;
     }
 
-    public Map<Integer, String> getBlockList() {
+    public Map<Float, String> getBlockList() {
         return blockList;
     }
 

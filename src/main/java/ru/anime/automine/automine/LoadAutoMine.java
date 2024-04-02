@@ -33,6 +33,7 @@ public class LoadAutoMine {
                     Vector secondPos = loadVector(config, autoMineKey + ".secondPos");
                     World world = Bukkit.getWorld(config.getString(autoMineKey + ".world"));
                     Location hologramPos = loadLocation(config, autoMineKey + ".hologramPos", world);
+                    String spawnHologram = config.getString(autoMineKey + ".spawnHologram");
                     List<String> lines = config.getStringList(autoMineKey + ".lines");
                     int timeUpdate = config.getInt(autoMineKey + ".timeUpdate");
 
@@ -44,15 +45,15 @@ public class LoadAutoMine {
                             String typeMineKey = autoMineKey + ".typeMine." + typeMineId;
                             String name = config.getString(typeMineKey + ".name");
                             int chance = config.getInt(typeMineKey + ".chance");
-                            Map<Integer, String> blockList = loadBlockList(config, typeMineKey + ".blockList");
-                            Map<Integer, String> treeMap = new TreeMap<>(blockList);
+                            Map<Float, String> blockList = loadBlockList(config, typeMineKey + ".blockList");
+                            Map<Float, String> treeMap = new TreeMap<>(blockList);
                             List<String> updateMessage = config.getStringList(typeMineKey + ".update_message");
                             TypeMine typeMine = new TypeMine(typeMineId, name, chance, treeMap, updateMessage);
                             typeMineList.add(typeMine);
                         }
                     }
                     String key = autoMineId.replaceFirst("AutoMines\\.", "");
-                    AutoMine autoMine = new AutoMine(key, firstPos, secondPos, hologramPos, lines, world, Sort.sort(typeMineList), timeUpdate);
+                    AutoMine autoMine = new AutoMine(key, firstPos, secondPos, spawnHologram, hologramPos, lines, world, Sort.sort(typeMineList), timeUpdate);
                     autoMines.put(key, autoMine);
                 }
             }
@@ -87,16 +88,26 @@ public class LoadAutoMine {
             return null;
         }
     }
-    private static Map<Integer, String> loadBlockList(YamlConfiguration config, String path) {
-        Map<Integer, String> blockList = new HashMap<>();
+    private static Map<Float, String> loadBlockList(YamlConfiguration config, String path) {
+        Map<Float, String> blockList = new HashMap<>();
 
-        if (config.isConfigurationSection(path)) {
-            ConfigurationSection section = config.getConfigurationSection(path);
-
-            for (String key : section.getKeys(false)) {
-                int blockKey = Integer.parseInt(key);
-                String blockValue = section.getString(key);
-                blockList.put(blockKey, blockValue);
+        if (config.isList(path)) {
+            List<String> list = config.getStringList(path);
+            for (String entry : list) {
+                String[] parts = entry.split(" : ");
+                if (parts.length == 2) {
+                    try {
+                        float probability = Float.parseFloat(parts[0]);
+                        String block = parts[1];
+                        blockList.put(probability, block);
+                    } catch (NumberFormatException e) {
+                        // Обработка ошибки преобразования строки в число
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Неверный формат строки
+                    System.err.println("Invalid format for blockList entry: " + entry);
+                }
             }
         }
 

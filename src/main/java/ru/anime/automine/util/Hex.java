@@ -1,8 +1,11 @@
 package ru.anime.automine.util;
 
-// import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 import java.util.regex.Matcher;
@@ -18,15 +21,15 @@ public class Hex {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-   // public static @NotNull String setPlaceholders(@Nullable OfflinePlayer player, @NotNull String string) {
-    //    if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-     //       try {
-      //          return PlaceholderAPI.setPlaceholders(player, string);
-      //      } catch (Exception ignore) {
-      //      }
-     //   }
-     //   return string;
-  //  }
+    public static @NotNull String setPlaceholders(@Nullable OfflinePlayer player, @NotNull String string) {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            try {
+                return PlaceholderAPI.setPlaceholders(player, string);
+            } catch (Exception ignore) {
+            }
+        }
+        return string;
+    }
     public static String color(String string){
         return org.bukkit.ChatColor.translateAlternateColorCodes('&', string);
     }

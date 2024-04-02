@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import ru.anime.automine.Main;
+import ru.anime.automine.util.Hex;
 
 import java.util.Map;
 import java.util.Random;
@@ -38,21 +39,28 @@ public class FullAutoMine {
             } else {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     for (String element : typeMine.getUpdate_message()) {
-                        player.sendMessage(hex(element));
+                        String msg = Hex.setPlaceholders(null, element);
+                        player.sendMessage(hex(msg));
                     }
                 }
             }
         }
 
-        private static Material getRandomBlockType(Random random, Map<Integer, String> blockList) {
-            int totalWeight = blockList.keySet().stream().mapToInt(Integer::intValue).sum();
-            int randomWeight = random.nextInt(totalWeight) + 1;
+        private static Material getRandomBlockType(Random random, Map<Float, String> blockList) {
             while (true) {
-                for (Map.Entry<Integer, String> entry : blockList.entrySet()) {
-                    randomWeight -= entry.getKey();
-                    if (randomWeight <= 0) {
+                float totalProbability = (float) blockList.keySet().stream().mapToDouble(Float::floatValue).sum();
+
+                // Генерация случайного числа в диапазоне от 0 до общей суммы вероятностей
+                float randomValue = random.nextFloat() * totalProbability;
+
+                // Находим блок на основе случайного значения
+                float cumulativeProbability = 0;
+                for (Map.Entry<Float, String> entry : blockList.entrySet()) {
+                    cumulativeProbability += entry.getKey();
+                    if (randomValue <= cumulativeProbability) {
                         // Возвращаем тип блока по значению в map
                         return Material.getMaterial(entry.getValue());
+
                     }
                 }
             }

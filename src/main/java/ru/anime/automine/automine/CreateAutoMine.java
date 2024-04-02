@@ -14,74 +14,75 @@ import java.util.Map;
 
 public class CreateAutoMine {
 
-        public static void addAutoMine(String mineId, AutoMine mine, File configFile) {
-            YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+    public static void addAutoMine(String mineId, AutoMine mine, File configFile) {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
-            // Создаем раздел для новой шахты
-            String autoMineKey = "AutoMines." + mineId;
-            if (config.isConfigurationSection(autoMineKey)) {
-                Main.getInstance().getLogger().info("Такая шахта уже создана!");
-                return;
-            } else {
+        // Создаем раздел для новой шахты
+        String autoMineKey = "AutoMines." + mineId;
+        if (config.isConfigurationSection(autoMineKey)) {
+            Main.getInstance().getLogger().info("Такая шахта уже создана!");
+            return;
+        } else {
 
-                config.createSection(autoMineKey);
+            config.createSection(autoMineKey);
 
-                // Сохраняем данные о шахте в конфигурацию
-                config.set(autoMineKey + ".firstPos", saveVector(mine.getFirstPos()));
-                config.set(autoMineKey + ".secondPos", saveVector(mine.getSecondPos()));
-                config.set(autoMineKey + ".world", mine.getWorld().getName());
-                config.set(autoMineKey + ".hologramPos", saveLocation(mine.getHologramPos()));
-                config.set(autoMineKey + ".lines", mine.getLines());
-                config.set(autoMineKey + ".timeUpdate", mine.getTimeUpdate());
+            // Сохраняем данные о шахте в конфигурацию
+            config.set(autoMineKey + ".firstPos", saveVector(mine.getFirstPos()));
+            config.set(autoMineKey + ".secondPos", saveVector(mine.getSecondPos()));
+            config.set(autoMineKey + ".world", mine.getWorld().getName());
+            config.set(autoMineKey + ".spawnHologram", mine.getSpawnHologram());
+            config.set(autoMineKey + ".hologramPos", saveLocation(mine.getHologramPos()));
+            config.set(autoMineKey + ".lines", mine.getLines());
+            config.set(autoMineKey + ".timeUpdate", mine.getTimeUpdate());
 
-                // Создаем раздел для типов шахт
-                String typeMineKey = autoMineKey + ".typeMine";
-                config.createSection(typeMineKey);
+            // Создаем раздел для типов шахт
+            String typeMineKey = autoMineKey + ".typeMine";
+            config.createSection(typeMineKey);
 
-                // Сохраняем данные о каждом типе шахты
-                for (TypeMine typeMine : mine.getTypeMine()) {
-                    String typeId = typeMine.getId();
-                    String typeMineId = typeMineKey + "." + typeId;
+            // Сохраняем данные о каждом типе шахты
+            for (TypeMine typeMine : mine.getTypeMine()) {
+                String typeId = typeMine.getId();
+                String typeMineId = typeMineKey + "." + typeId;
 
-                    config.set(typeMineId + ".name", typeMine.getName());
-                    config.set(typeMineId + ".chance", typeMine.getChance());
-                    config.set(typeMineId + ".blockList", saveBlockList(typeMine.getBlockList()));
-                    config.set(typeMineId + ".update_message", new ArrayList<>(typeMine.getUpdate_message()));
-                }
+                config.set(typeMineId + ".name", typeMine.getName());
+                config.set(typeMineId + ".chance", typeMine.getChance());
+                config.set(typeMineId + ".blockList", saveBlockList(typeMine.getBlockList()));
+                config.set(typeMineId + ".update_message", new ArrayList<>(typeMine.getUpdate_message()));
+            }
 
-                // Сохраняем изменения в файл
-                try {
-                    config.save(configFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            // Сохраняем изменения в файл
+            try {
+                config.save(configFile);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+    }
 
-        private static ConfigurationSection saveVector(Vector vector) {
-            ConfigurationSection section = new YamlConfiguration();
-            section.set("x", vector.getX());
-            section.set("y", vector.getY());
-            section.set("z", vector.getZ());
-            return section;
-        }
+    private static ConfigurationSection saveVector(Vector vector) {
+        ConfigurationSection section = new YamlConfiguration();
+        section.set("x", vector.getX());
+        section.set("y", vector.getY());
+        section.set("z", vector.getZ());
+        return section;
+    }
 
-        private static ConfigurationSection saveLocation(Location location) {
-            ConfigurationSection section = new YamlConfiguration();
-            if (location != null) {
-                section.set("world", location.getWorld().getName());
-                section.set("x", location.getX());
-                section.set("y", location.getY());
-                section.set("z", location.getZ());
-            }
-            return section;
+    private static ConfigurationSection saveLocation(Location location) {
+        ConfigurationSection section = new YamlConfiguration();
+        if (location != null) {
+            section.set("world", location.getWorld().getName());
+            section.set("x", location.getX());
+            section.set("y", location.getY());
+            section.set("z", location.getZ());
         }
+        return section;
+    }
 
-        private static ConfigurationSection saveBlockList(Map<Integer, String> blockList) {
-            ConfigurationSection section = new YamlConfiguration();
-            for (Map.Entry<Integer, String> entry : blockList.entrySet()) {
-                section.set(entry.getKey().toString(), entry.getValue());
-            }
-            return section;
+    private static List<String> saveBlockList(Map<Float, String> blockList) {
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<Float, String> entry : blockList.entrySet()) {
+            list.add(entry.getKey() + " : " + entry.getValue());
         }
+        return list;
+    }
 }

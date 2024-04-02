@@ -63,12 +63,12 @@ public class ClickBlock implements Listener {
                     "Следующая шахта: " + "%am_next_" + key + "%",
                     "До обновления: " + "%am_time_" + key + "%");
 
-            Map<Integer, String> blockListDefault = new TreeMap<>();
-            blockListDefault.put(50, "IRON_ORE");
-            blockListDefault.put(100, "STONE");
-            Map<Integer, String> blockListSuper = new TreeMap<>();
-            blockListSuper.put(50, "GOLD_ORE");
-            blockListSuper.put(100, "STONE");
+            Map<Float, String> blockListDefault = new TreeMap<>();
+            blockListDefault.put(50F, "IRON_ORE");
+            blockListDefault.put(100F, "STONE");
+            Map<Float, String> blockListSuper = new TreeMap<>();
+            blockListSuper.put(50F, "GOLD_ORE");
+            blockListSuper.put(100F, "STONE");
             List<String> messageDefault = new ArrayList<>();
             messageDefault.add(" ");
             messageDefault.add("Шахта обновилась");
@@ -79,7 +79,7 @@ public class ClickBlock implements Listener {
             TypeMine typeMine2 = new TypeMine("super", "Редкая", 50, blockListSuper, messageSuper);
 
             List<TypeMine> typeList = List.of(typeMine, typeMine2);
-            AutoMine autoMine = new AutoMine(nameAutoMine.get(event.getPlayer().getUniqueId()), firstLocation.toVector(), secondLocation.toVector(),
+            AutoMine autoMine = new AutoMine(nameAutoMine.get(event.getPlayer().getUniqueId()), firstLocation.toVector(), secondLocation.toVector(),"true" ,
                     average(firstLocation, secondLocation, event.getPlayer().getWorld()), lines, event.getPlayer().getWorld(), typeList, 300);
             if (autoMines.containsKey(nameAutoMine.get(event.getPlayer().getUniqueId()))){
                 event.getPlayer().sendMessage(color("&aТакая шахта уже существует!"));

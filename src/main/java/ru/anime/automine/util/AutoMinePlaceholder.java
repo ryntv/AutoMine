@@ -39,10 +39,6 @@ public class AutoMinePlaceholder extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
 
-        if (player == null) {
-            return "";
-        }
-
         if (identifier.startsWith("current_")) {
             String key = identifier.replace("current_", "");
 
