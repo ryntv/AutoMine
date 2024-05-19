@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 import ru.anime.automine.automine.AutoMine;
 import ru.anime.automine.automine.LoadAutoMine;
 import ru.anime.automine.command.AutoMineCommand;
@@ -23,9 +24,11 @@ import java.util.UUID;
 
 public final class Main extends JavaPlugin {
     private static Main instance;
+
     public static Main getInstance() {
         return instance;
     }
+
     private static File AutoMines;
     private static FileConfiguration cfg;
     public static Map<String, AutoMine> autoMines = new HashMap<>();
@@ -38,7 +41,7 @@ public final class Main extends JavaPlugin {
         instance = this;
 
         HtmlGet.getDataFromUrl();
-        createAutoMinesFile();
+        createAutoMinesFile(true);
         getLogger().info("AutoMine Start!");
         new Metrics(this, 21311);
         getCommand("automine").setExecutor(new AutoMineCommand());
@@ -63,15 +66,18 @@ public final class Main extends JavaPlugin {
         }
         autoMines.values().forEach(AutoMine::stop);
     }
-    public void reload(){
+
+    public void reload() {
         autoMines.values().forEach(AutoMine::stop);
         autoMines.clear();
 
-        createAutoMinesFile();
+        reloadConfig();
+        cfg = getConfig();
+        createAutoMinesFile(false);
     }
 
 
-    private void createAutoMinesFile() {
+    private void createAutoMinesFile(Boolean firstStart) {
         try {
             File autoMinesFile = new File(getDataFolder(), "AutoMines.yml");
             AutoMines = autoMinesFile;
@@ -80,16 +86,38 @@ public final class Main extends JavaPlugin {
                 autoMinesFile.getParentFile().mkdirs();
             }
 
+
             if (autoMinesFile.createNewFile()) {
                 getLogger().info("Файл AutoMines.yml успешно создан");
-                LoadAutoMine.loadAutoMines(AutoMines);
+                if (firstStart) {
+                    getLogger().info("Шахта загрузится через 15 секунд!");
+                    BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+                    scheduler.runTaskLater(this, () -> {
+                        LoadAutoMine.loadAutoMines(AutoMines);
+                    }, 300L);
+                } else {
+                    LoadAutoMine.loadAutoMines(AutoMines);
+                }
+
+
             } else {
-                LoadAutoMine.loadAutoMines(AutoMines);
+                if (firstStart) {
+                    getLogger().info("Шахта загрузится через 15 секунд!");
+                    BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+                    scheduler.runTaskLater(this, () -> {
+                        LoadAutoMine.loadAutoMines(AutoMines);
+                    }, 300L);
+                } else {
+                    LoadAutoMine.loadAutoMines(AutoMines);
+                }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     private void tick() {
         autoMines.values().forEach(AutoMine::tick);
     }
@@ -97,6 +125,7 @@ public final class Main extends JavaPlugin {
     public static File getAutoMines() {
         return AutoMines;
     }
+
     public static FileConfiguration getCfg() {
         return cfg;
     }

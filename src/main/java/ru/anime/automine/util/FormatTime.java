@@ -1,11 +1,53 @@
 package ru.anime.automine.util;
 
+import ru.anime.automine.Main;
+
 public class FormatTime {
-    public static String integerFormat(int Sec){
-        int hour = Sec / 3600;//3600
-        int min = Sec % 3600 / 60;
-        int sec = Sec % 60;
-        return String.format("%02d:%02d:%02d", hour, min, sec);
+    private static String timeFormat;
+
+    public static String integerFormat(int Sec) {
+        int hour = Sec / 3600; // Количество часов
+        int min = (Sec % 3600) / 60; // Количество минут
+        int sec = Sec % 60; // Количество секунд
+        String sHour;
+        String sMin;
+        String sSec;
+        if (hour < 10){
+             sHour = "0"+hour;
+        } else {
+             sHour = String.valueOf(hour);
+        }
+        if (min < 10){
+             sMin = "0"+min;
+        } else {
+             sMin = String.valueOf(min);
+        }
+        if (sec < 10){
+             sSec = "0"+sec;
+        } else {
+             sSec = String.valueOf(sec);
+        }
+        // Получаем строку формата времени из конфигурации
+        String str = Main.getCfg().getString("timeFormat");
+
+        // Проверка значения str для отладки
+        System.out.println("Полученный формат времени: " + str);
+
+        // Если строка формата времени не задана, используем формат по умолчанию
+        if (str == null) {
+            return hour + ":" + min + ":" + sec;
+        }
+
+        // Замена символов 'h', 'm' и 's' на соответствующие значения
+
+        str = str.replace("h", sHour);
+        str = str.replace("m", sMin);
+        str = str.replace("s", sSec);
+
+        // Проверка результата после замены для отладки
+        System.out.println("Формат времени после замены: " + str);
+
+        return str;
     }
     public static String stringFormat(int Sec){
         int hour = Sec / 3600;//3600

@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.Vector;
+import ru.anime.automine.Main;
 import ru.anime.automine.util.Sort;
 
 import java.io.File;
@@ -31,6 +32,7 @@ public class LoadAutoMine {
 
                     Vector firstPos = loadVector(config, autoMineKey + ".firstPos");
                     Vector secondPos = loadVector(config, autoMineKey + ".secondPos");
+
                     World world = Bukkit.getWorld(config.getString(autoMineKey + ".world"));
                     Location hologramPos = loadLocation(config, autoMineKey + ".hologramPos", world);
                     String spawnHologram = config.getString(autoMineKey + ".spawnHologram");
@@ -55,6 +57,7 @@ public class LoadAutoMine {
                     String key = autoMineId.replaceFirst("AutoMines\\.", "");
                     AutoMine autoMine = new AutoMine(key, firstPos, secondPos, spawnHologram, hologramPos, lines, world, Sort.sort(typeMineList), timeUpdate);
                     autoMines.put(key, autoMine);
+                    Main.getInstance().getLogger().info("Шахта: " + key + " загрузилась!");
                 }
             }
         } catch (Exception e) {

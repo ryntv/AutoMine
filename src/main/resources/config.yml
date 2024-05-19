@@ -1,4 +1,4 @@
-# Version: 0.1.5
+# Version: 0.1.6
 # Discord: https://discord.gg/XCWzCRtxgq
 #
 # Разрешение: automine.admin
@@ -21,3 +21,5 @@
 
 # Выбрать в каком формате будет выводиться отчёт (integer (00:30:00) или string (30 минут))
 TypeFormat: "integer"
+# Выбрать формат для integer h-час m-минута s-секунда
+timeFormat: "h:m:s"

@@ -31,10 +31,11 @@ public class HtmlGet {
             reader.close();
 
             // Вывод ответа
-            if (String.valueOf(response).equals("0.1.5")){
+            if (String.valueOf(response).equals("0.1.6")){
                 connection.disconnect();
             } else {
-                return "AutoMine: Вышла новая версия: " + response;
+                return "AutoMine: Вышла новая версия: " + response +"\n Скачать можно тут -> Discord: https://discord.gg/XCWzCRtxgq";
+
             }
 
             // Закрытие соединения

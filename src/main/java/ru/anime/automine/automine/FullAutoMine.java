@@ -34,9 +34,7 @@ public class FullAutoMine {
                     }
                 }
             }
-            if (typeMine.getUpdate_message().isEmpty()){
-
-            } else {
+            if(!typeMine.getUpdate_message().isEmpty()){
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     for (String element : typeMine.getUpdate_message()) {
                         String msg = Hex.setPlaceholders(null, element);

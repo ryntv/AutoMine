@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 public class Hex {
     private static final Pattern hexPattern = Pattern.compile("&(#[a-f0-9]{6})", Pattern.CASE_INSENSITIVE);
-
     public static @NotNull String hex(@NotNull String message) {
         Matcher m = hexPattern.matcher(message);
         while (m.find())
