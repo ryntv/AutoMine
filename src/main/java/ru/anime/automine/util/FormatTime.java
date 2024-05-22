@@ -30,8 +30,6 @@ public class FormatTime {
         // Получаем строку формата времени из конфигурации
         String str = Main.getCfg().getString("timeFormat");
 
-        // Проверка значения str для отладки
-        System.out.println("Полученный формат времени: " + str);
 
         // Если строка формата времени не задана, используем формат по умолчанию
         if (str == null) {
@@ -44,8 +42,6 @@ public class FormatTime {
         str = str.replace("m", sMin);
         str = str.replace("s", sSec);
 
-        // Проверка результата после замены для отладки
-        System.out.println("Формат времени после замены: " + str);
 
         return str;
     }
