@@ -1,5 +1,7 @@
 package ru.anime.automine.event;
 
+import org.bukkit.Material;
+import ru.anime.automine.util.Pair;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -74,9 +76,12 @@ public class ClickBlock implements Listener {
             messageDefault.add("Шахта обновилась");
             messageDefault.add(" ");
             List<String> messageSuper = new ArrayList<>();
+            Map<Material, String> custom = new HashMap<>();
+            custom.put(Material.DIRT, "<GIVE><DIAMOND>");
 
-            TypeMine typeMine = new TypeMine("default", "Обычная", 100, blockListDefault, messageDefault);
-            TypeMine typeMine2 = new TypeMine("super", "Редкая", 50, blockListSuper, messageSuper);
+            TypeMine typeMine = new TypeMine("default", "Обычная", 100, mapToList(blockListDefault), messageDefault, custom);
+            TypeMine typeMine2 = new TypeMine("super", "Редкая", 50, mapToList(blockListSuper), messageSuper, custom);
+
 
             List<TypeMine> typeList = List.of(typeMine, typeMine2);
             AutoMine autoMine = new AutoMine(nameAutoMine.get(event.getPlayer().getUniqueId()), firstLocation.toVector(), secondLocation.toVector(),"true" ,
@@ -100,6 +105,16 @@ public class ClickBlock implements Listener {
         double centerY = Math.max(v1.getY(), v2.getY()) + 3;
 
         return new Location(world, v1.getX(), centerY, v1.getZ());
+    }
+
+    private static List<Pair<Float, String>> mapToList(Map<Float, String> map) {
+        List<Pair<Float, String>> list = new ArrayList<>();
+        for (Map.Entry<Float, String> entry : map.entrySet()) {
+            Float key = entry.getKey();
+            String value = entry.getValue();
+            list.add(Pair.of(key, value));
+        }
+        return list;
     }
 
 }

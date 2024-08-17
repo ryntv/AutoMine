@@ -1,10 +1,12 @@
 package ru.anime.automine.automine;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.Vector;
 import ru.anime.automine.Main;
+import ru.anime.automine.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,7 @@ public class CreateAutoMine {
                 config.set(typeMineId + ".chance", typeMine.getChance());
                 config.set(typeMineId + ".blockList", saveBlockList(typeMine.getBlockList()));
                 config.set(typeMineId + ".update_message", new ArrayList<>(typeMine.getUpdate_message()));
+                config.set(typeMineId + ".customDrops", saveCustomDrops(typeMine.getCustomDrop()));
             }
 
             // Сохраняем изменения в файл
@@ -78,10 +81,17 @@ public class CreateAutoMine {
         return section;
     }
 
-    private static List<String> saveBlockList(Map<Float, String> blockList) {
+    private static List<String> saveBlockList(List<Pair<Float, String>> blockList) {
         List<String> list = new ArrayList<>();
-        for (Map.Entry<Float, String> entry : blockList.entrySet()) {
+        for (Pair<Float, String> entry : blockList) {
             list.add(entry.getKey() + " : " + entry.getValue());
+        }
+        return list;
+    }
+    private static List<String> saveCustomDrops(Map<Material, String> customDrops) {
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<Material, String> entry : customDrops.entrySet()) {
+            list.add(entry.getKey().name() + ":" + entry.getValue());
         }
         return list;
     }

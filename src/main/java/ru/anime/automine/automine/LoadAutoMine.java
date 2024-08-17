@@ -1,5 +1,7 @@
 package ru.anime.automine.automine;
 
+import org.bukkit.Material;
+import ru.anime.automine.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -47,10 +49,10 @@ public class LoadAutoMine {
                             String typeMineKey = autoMineKey + ".typeMine." + typeMineId;
                             String name = config.getString(typeMineKey + ".name");
                             int chance = config.getInt(typeMineKey + ".chance");
-                            Map<Float, String> blockList = loadBlockList(config, typeMineKey + ".blockList");
-                            Map<Float, String> treeMap = new TreeMap<>(blockList);
+                            List<Pair<Float, String>> blockList = loadBlockList(config, typeMineKey + ".blockList");
                             List<String> updateMessage = config.getStringList(typeMineKey + ".update_message");
-                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, treeMap, updateMessage);
+                            Map<Material, String> customDrops = loadCustomDrops(config, typeMineKey + ".customDrops");
+                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, blockList, updateMessage, customDrops);
                             typeMineList.add(typeMine);
                         }
                     }
@@ -91,8 +93,9 @@ public class LoadAutoMine {
             return null;
         }
     }
-    private static Map<Float, String> loadBlockList(YamlConfiguration config, String path) {
-        Map<Float, String> blockList = new HashMap<>();
+
+    private static List<Pair<Float, String>> loadBlockList(YamlConfiguration config, String path) {
+        List<Pair<Float, String>> blockList = new ArrayList<>();
 
         if (config.isList(path)) {
             List<String> list = config.getStringList(path);
@@ -102,7 +105,7 @@ public class LoadAutoMine {
                     try {
                         float probability = Float.parseFloat(parts[0]);
                         String block = parts[1];
-                        blockList.put(probability, block);
+                        blockList.add(Pair.of(probability, block));
                     } catch (NumberFormatException e) {
                         // Обработка ошибки преобразования строки в число
                         e.printStackTrace();
@@ -115,5 +118,15 @@ public class LoadAutoMine {
         }
 
         return blockList;
+    }
+    private static Map<Material, String> loadCustomDrops(YamlConfiguration config, String path) {
+        Map<Material, String> customDrops = new HashMap<>();
+        for (String entry : config.getStringList(path)) {
+            String[] parts = entry.split(":");
+            Material material = Material.valueOf(parts[0]);
+            String drop = parts[1];
+            customDrops.put(material, drop);
+        }
+        return customDrops;
     }
 }

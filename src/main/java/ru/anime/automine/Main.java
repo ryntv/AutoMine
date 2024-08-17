@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import ru.anime.automine.automine.AutoMine;
 import ru.anime.automine.automine.LoadAutoMine;
 import ru.anime.automine.command.AutoMineCommand;
+import ru.anime.automine.event.BreakBlock;
 import ru.anime.automine.event.ClickBlock;
 import ru.anime.automine.event.JoinServer;
 import ru.anime.automine.util.AutoMinePlaceholder;
@@ -47,6 +48,7 @@ public final class Main extends JavaPlugin {
         getCommand("automine").setExecutor(new AutoMineCommand());
         getServer().getPluginManager().registerEvents(new ClickBlock(), this);
         getServer().getPluginManager().registerEvents(new JoinServer(), this);
+        getServer().getPluginManager().registerEvents(new BreakBlock(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             placeholderExpansion = new AutoMinePlaceholder(this);
             placeholderExpansion.register();

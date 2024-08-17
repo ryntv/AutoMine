@@ -3,6 +3,7 @@ package ru.anime.automine.event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import ru.anime.automine.Main;
 import ru.anime.automine.util.HtmlGet;
 
 import static ru.anime.automine.util.Hex.color;
@@ -14,7 +15,7 @@ public class JoinServer implements Listener {
             return;
         } else {
             String version = HtmlGet.getDataFromUrl();
-            if (version != null){
+            if (version != null && Main.getCfg().getBoolean("checkUpdate")){
                 event.getPlayer().sendMessage(color("&a&l"+version));
             }
         }
