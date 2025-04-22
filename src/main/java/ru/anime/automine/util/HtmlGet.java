@@ -31,7 +31,7 @@ public class HtmlGet {
             reader.close();
 
             // Вывод ответа
-            if (String.valueOf(response).equals("0.1.8")){
+            if (String.valueOf(response).equals("0.2")){
                 connection.disconnect();
             } else {
                 return "AutoMine: Вышла новая версия: " + response +"\n Скачать можно тут -> Discord: https://discord.gg/XCWzCRtxgq";

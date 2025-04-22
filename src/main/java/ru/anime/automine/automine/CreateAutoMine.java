@@ -48,6 +48,7 @@ public class CreateAutoMine {
 
                 config.set(typeMineId + ".name", typeMine.getName());
                 config.set(typeMineId + ".chance", typeMine.getChance());
+                config.set(typeMineId + ".teleportPosition", typeMine.getTeleportPosition());
                 config.set(typeMineId + ".blockList", saveBlockList(typeMine.getBlockList()));
                 config.set(typeMineId + ".update_message", new ArrayList<>(typeMine.getUpdate_message()));
                 config.set(typeMineId + ".customDrops", saveCustomDrops(typeMine.getCustomDrop()));

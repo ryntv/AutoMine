@@ -49,10 +49,11 @@ public class LoadAutoMine {
                             String typeMineKey = autoMineKey + ".typeMine." + typeMineId;
                             String name = config.getString(typeMineKey + ".name");
                             int chance = config.getInt(typeMineKey + ".chance");
+                            String teleportPosition = config.getString(typeMineKey + ".teleportPosition");
                             List<Pair<Float, String>> blockList = loadBlockList(config, typeMineKey + ".blockList");
                             List<String> updateMessage = config.getStringList(typeMineKey + ".update_message");
                             Map<Material, String> customDrops = loadCustomDrops(config, typeMineKey + ".customDrops");
-                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, blockList, updateMessage, customDrops);
+                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, teleportPosition , blockList, updateMessage, customDrops);
                             typeMineList.add(typeMine);
                         }
                     }

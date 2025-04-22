@@ -98,7 +98,7 @@ public class AutoMine {
                 y >= minY && y <= maxY &&
                 z >= minZ && z <= maxZ;
     }
-    public static void teleportPlayer(Vector firstPos, Vector secondPos, World world) {
+    public static void teleportPlayer(Vector firstPos, Vector secondPos, World world, String teleportPosition) {
         double maxY;
         if (secondPos.getY() > firstPos.getY()){
             maxY = secondPos.getY();
@@ -112,7 +112,19 @@ public class AutoMine {
             // Проверяем, находится ли местоположение игрока между заданными местоположениями
             if (isBetweenLocations(playerLocation, firs, second)) {
                 Vector headDirection = player.getEyeLocation().getDirection();
-                player.teleport(new Location(world, playerLocation.getX(), maxY + 1, playerLocation.getZ()).setDirection(headDirection));
+                if (teleportPosition.equals("null")){
+                    player.teleport(new Location(world, playerLocation.getX(), maxY + 1, playerLocation.getZ()).setDirection(headDirection));
+                } else {
+                    String[] numbers = null;
+                    numbers = teleportPosition.split(",");
+
+                    float x = Float.parseFloat(numbers[0].trim());
+                    float y = Float.parseFloat(numbers[1].trim());
+                    float z = Float.parseFloat(numbers[2].trim());
+
+                    player.teleport(new Location(world, x, y,z));
+                }
+
             }
         }
     }

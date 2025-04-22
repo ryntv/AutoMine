@@ -1,5 +1,6 @@
 package ru.anime.automine.event;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -69,6 +70,12 @@ public class BreakBlock implements Listener {
                         location.getWorld().dropItemNaturally(location, itemStack);
                     }
                 }
+            } else if (firstValue != null && firstValue.equals("CONSOLE")) {
+                if (brokenBlockType == key2){
+                    String command = secondValue.replaceAll("%player%", event.getPlayer().getName()); // подменяем ник
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                }
+
             }
         }
     }

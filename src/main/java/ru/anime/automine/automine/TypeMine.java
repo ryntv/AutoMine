@@ -10,14 +10,16 @@ public class TypeMine {
     private final String id;
     private final String name;
     private final Integer chance;
+    private final String teleportPosition;
     private List<Pair<Float, String>> blockList;
     private final List<String> update_message;
     private final Map<Material, String> customDrop;
 
-    public TypeMine(String id, String name, Integer chance, List<Pair<Float, String>> blockList, List<String> updateMessage, Map<Material, String> customDrop) {
+    public TypeMine(String id, String name, Integer chance, String teleportPosition, List<Pair<Float, String>> blockList, List<String> updateMessage, Map<Material, String> customDrop) {
         this.id = id;
         this.name = name;
         this.chance = chance;
+        this.teleportPosition = teleportPosition;
         this.blockList = blockList;
         this.update_message = updateMessage;
         this.customDrop = customDrop;
@@ -45,4 +47,9 @@ public class TypeMine {
     public List<String> getUpdate_message() {
         return update_message;
     }
+
+    public String getTeleportPosition() {
+        return teleportPosition;
+    }
 }
+

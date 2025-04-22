@@ -25,7 +25,7 @@ public class FullAutoMine {
         int z2 = Math.max(min.getBlockZ(), max.getBlockZ());
 
         Random random = new Random();
-        AutoMine.teleportPlayer(min, max, world);
+        AutoMine.teleportPlayer(min, max, world, typeMine.getTeleportPosition());
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 for (int z = z1; z <= z2; z++) {
