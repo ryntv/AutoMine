@@ -6,7 +6,7 @@
 
     <groupId>ru.anime</groupId>
     <artifactId>AutoMine</artifactId>
-    <version>0.1.9</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
 
     <name>AutoMine</name>

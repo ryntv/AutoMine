@@ -2,46 +2,34 @@ package ru.anime.automine.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HtmlGet {
     public static String getDataFromUrl() {
+        HttpURLConnection connection = null;
         try {
-            // Создание URL для запроса
-            URL url = new URL("http://ryntv55s.beget.tech/AutoMine.php");
-
-            // Открытие соединения
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-            // Установка метода запроса (GET)
+            URL url = new URL("https://raw.githubusercontent.com/ryntv/AutoMine/refs/heads/master/version");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(15000);
             connection.setRequestMethod("GET");
 
-            // Получение ответа
-            int responseCode = connection.getResponseCode();
+            int code = connection.getResponseCode();
 
-            // Чтение ответа
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
+            if (code == 200) {
+                try (InputStream inputStream = connection.getInputStream();
+                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                    return String.join("\n", reader.lines().toList());
+                }
             }
-            reader.close();
-
-            // Вывод ответа
-            if (String.valueOf(response).equals("0.2")){
+        } catch (IOException ignore) {
+        } finally {
+            if (connection != null) {
                 connection.disconnect();
-            } else {
-                return "AutoMine: Вышла новая версия: " + response +"\n Скачать можно тут -> Discord: https://discord.gg/XCWzCRtxgq";
-
             }
-
-            // Закрытие соединения
-            connection.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }

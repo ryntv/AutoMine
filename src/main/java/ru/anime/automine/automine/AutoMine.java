@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import ru.anime.automine.Main;
 import ru.anime.automine.util.UtilHologram;
 
 import java.util.List;
@@ -56,12 +57,14 @@ public class AutoMine {
             presently = genRandomType(typeMine);
         }
         if(next == null){
-           next = genRandomType(typeMine);
+            next = getNextMain();
+
             FullAutoMine.fillBlocks(firstPos, secondPos, world, presently);
         } else {
             presently = next;
             FullAutoMine.fillBlocks(firstPos, secondPos, world, presently);
-            next = genRandomType(typeMine);
+
+            next = getNextMain();
         }
     }
     public void stop(){
@@ -98,6 +101,17 @@ public class AutoMine {
                 y >= minY && y <= maxY &&
                 z >= minZ && z <= maxZ;
     }
+
+    private TypeMine getNextMain (){
+        TypeMine next;
+        int x = 0;
+        do {
+            next = genRandomType(typeMine);
+        } while (Bukkit.getOnlinePlayers().size() < next.getMinOnline() && x++ < 100);
+
+        return next;
+    }
+
     public static void teleportPlayer(Vector firstPos, Vector secondPos, World world, String teleportPosition) {
         double maxY;
         if (secondPos.getY() > firstPos.getY()){

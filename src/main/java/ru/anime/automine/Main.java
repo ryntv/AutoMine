@@ -47,7 +47,7 @@ public final class Main extends JavaPlugin {
         new Metrics(this, 21311);
         getCommand("automine").setExecutor(new AutoMineCommand());
         getServer().getPluginManager().registerEvents(new ClickBlock(), this);
-        getServer().getPluginManager().registerEvents(new JoinServer(), this);
+        new JoinServer(this);
         getServer().getPluginManager().registerEvents(new BreakBlock(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             placeholderExpansion = new AutoMinePlaceholder(this);
