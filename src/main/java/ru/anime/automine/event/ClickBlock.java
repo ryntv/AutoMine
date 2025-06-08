@@ -79,8 +79,8 @@ public class ClickBlock implements Listener {
             Map<Material, String> custom = new HashMap<>();
             custom.put(Material.DIRT, "<GIVE><DIAMOND>");
 
-            TypeMine typeMine = new TypeMine("default", "Обычная", 100, "null", 0, mapToList(blockListDefault), messageDefault, custom);
-            TypeMine typeMine2 = new TypeMine("super", "Редкая", 50, "null", 0, mapToList(blockListSuper), messageSuper, custom);
+            TypeMine typeMine = new TypeMine("default", "Обычная", 100, "null", 0, "none", "У вас нету доступа к этой шахте!" ,mapToList(blockListDefault), messageDefault, custom);
+            TypeMine typeMine2 = new TypeMine("super", "Редкая", 50, "null", 0, "none", "У вас нету доступа к этой шахте!" ,mapToList(blockListSuper), messageSuper, custom);
 
 
             List<TypeMine> typeList = List.of(typeMine, typeMine2);

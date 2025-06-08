@@ -51,10 +51,12 @@ public class LoadAutoMine {
                             int chance = config.getInt(typeMineKey + ".chance");
                             String teleportPosition = config.getString(typeMineKey + ".teleportPosition");
                             Integer minOnline = config.getInt(typeMineKey + ".minOnline");
+                            String permission = config.getString(typeMineKey + ".permission");
+                            String noPermissionMessage = config.getString(typeMineKey + ".noPermissionMessage");
                             List<Pair<Float, String>> blockList = loadBlockList(config, typeMineKey + ".blockList");
                             List<String> updateMessage = config.getStringList(typeMineKey + ".update_message");
                             Map<Material, String> customDrops = loadCustomDrops(config, typeMineKey + ".customDrops");
-                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, teleportPosition, minOnline , blockList, updateMessage, customDrops);
+                            TypeMine typeMine = new TypeMine(typeMineId, name, chance, teleportPosition, minOnline, permission, noPermissionMessage ,blockList, updateMessage, customDrops);
                             typeMineList.add(typeMine);
                         }
                     }

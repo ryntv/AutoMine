@@ -1,6 +1,7 @@
 package ru.anime.automine.event;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,28 +16,43 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ru.anime.automine.util.Hex.hex;
+
 public class BreakBlock implements Listener {
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) { // Данная часть кода отвечает за отслеживания где сломался блок
+    public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        Location blockLocation = event.getBlock().getLocation(); // Получаем местоположение сломанного блока
+        Location blockLocation = event.getBlock().getLocation();
         Material brokenBlockType = event.getBlock().getType();
 
-        Main.autoMines.forEach((value, key) -> {
-            // Проверяем, находится ли сломанный блок внутри прямоугольника
-            if (isInsideRectangle(blockLocation, new Location(key.getWorld(), key.getFirstPos().getX(), key.getFirstPos().getY(), key.getFirstPos().getZ()),
-                    new Location(key.getWorld(), key.getSecondPos().getX(), key.getSecondPos().getY(), key.getSecondPos().getZ()))) {
-                List<TypeMine> typeMine = key.getTypeMine();
-                for (TypeMine number : typeMine) {
-                    number.getCustomDrop().forEach((key2, value2) -> {
-                        if (key.getPresently() == number){
-                            customDrop(Material.matchMaterial(String.valueOf(key2)), value2, brokenBlockType, event, key2, player);
-                        }
-                        });
+        for (var entry : Main.autoMines.entrySet()) {
+            var mine = entry.getValue();
+
+            if (isInsideRectangle(blockLocation,
+                    new Location(mine.getWorld(), mine.getFirstPos().getX(), mine.getFirstPos().getY(), mine.getFirstPos().getZ()),
+                    new Location(mine.getWorld(), mine.getSecondPos().getX(), mine.getSecondPos().getY(), mine.getSecondPos().getZ()))) {
+
+                TypeMine currentlyActiveType = mine.getPresently();
+
+                String permission = currentlyActiveType.getPermission(); // Например: "mine.use.coal"
+                boolean hasPermission = "none".equalsIgnoreCase(permission) || player.hasPermission(permission);
+
+                if (!hasPermission) {
+                    event.setCancelled(true);
+                    player.sendMessage(hex(currentlyActiveType.getNoPermissionMessage()));
+                    return;
                 }
+
+                // Выполняем дроп, если есть права
+                currentlyActiveType.getCustomDrop().forEach((materialKey, dropData) -> {
+                    Material dropMaterial = Material.matchMaterial(String.valueOf(materialKey));
+                    customDrop(dropMaterial, dropData, brokenBlockType, event, materialKey, player);
+                });
+
+                return; // Выходим после первой подходящей шахты
             }
-        });
+        }
     }
     private void customDrop(Material material, String string, Material brokenBlockType, BlockBreakEvent event, Material key2, Player player) {
         if (material != null) {

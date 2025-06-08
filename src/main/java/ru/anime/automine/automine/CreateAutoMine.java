@@ -50,6 +50,8 @@ public class CreateAutoMine {
                 config.set(typeMineId + ".chance", typeMine.getChance());
                 config.set(typeMineId + ".teleportPosition", typeMine.getTeleportPosition());
                 config.set(typeMineId + ".minOnline", typeMine.getMinOnline());
+                config.set(typeMineId + ".permission", typeMine.getPermission());
+                config.set(typeMineId + ".noPermissionMessage", typeMine.getNoPermissionMessage());
                 config.set(typeMineId + ".blockList", saveBlockList(typeMine.getBlockList()));
                 config.set(typeMineId + ".update_message", new ArrayList<>(typeMine.getUpdate_message()));
                 config.set(typeMineId + ".customDrops", saveCustomDrops(typeMine.getCustomDrop()));
