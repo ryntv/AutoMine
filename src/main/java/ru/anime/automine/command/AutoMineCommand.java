@@ -22,7 +22,7 @@ public class AutoMineCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("automine.admin") && !sender.hasPermission("automine.update") && !sender.hasPermission("automine.set")
+            if (!sender.hasPermission("automine.admin") && !sender.hasPermission("automine.update") && !sender.hasPermission("automine.set")
                 && !sender.hasPermission("automine.create")) {
             return true;
         }

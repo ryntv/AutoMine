@@ -1,5 +1,6 @@
 package ru.anime.automine.automine;
 
+import ru.anime.automine.Main;
 import ru.anime.automine.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,12 +36,9 @@ public class FullAutoMine {
             }
         }
         if (!typeMine.getUpdate_message().isEmpty()) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                for (String element : typeMine.getUpdate_message()) {
-                    String msg = Hex.setPlaceholders(null, element);
-                    player.sendMessage(hex(msg));
-                }
-            }
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
+                UpdateMessage.updateMessage(typeMine);
+            }, 1L);
         }
     }
 
